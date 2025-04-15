@@ -1,0 +1,40 @@
+Create an app in php (.php) thats looks exactly like this. The first picture is the home page, which is full of the notebooks on the home page. Please get structure right and add all the necessary elements
+
+
+https://www.triosdevelopers.com/~B.Khadka/noteTaking_app/index.php
+
+https://www.triosdevelopers.com/~B.Khadka/noteTaking_app/
+
+
+get_category.php
+
+
+<?php
+header('Content-Type: application/json');
+
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+require_once 'db_connect.php';  // Ensure the path is correct
+
+try {
+    $stmt = $pdo->query("SELECT DISTINCT category FROM notes");
+    $categories = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    echo json_encode(['success' => true, 'categories' => $categories]);
+} catch (PDOException $e) {
+    echo json_encode(['success' => false, 'message' => 'Database query error: ' . $e->getMessage()]);
+}
+?>
+
+
+
+<?php
+require_once 'functions.php';
+header('Content-Type: application/json');
+
+$result = getCategories();
+echo json_encode($result);
+?>
